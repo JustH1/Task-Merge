@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task Merge", "Task Merge\Task Merge.csproj", "{CBA6738F-32B9-45BB-B9DA-DF6968E376FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CBA6738F-32B9-45BB-B9DA-DF6968E376FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBA6738F-32B9-45BB-B9DA-DF6968E376FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBA6738F-32B9-45BB-B9DA-DF6968E376FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBA6738F-32B9-45BB-B9DA-DF6968E376FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {59E1B069-7A1E-4589-A78F-E444D8858046}
+	EndGlobalSection
+EndGlobal
