@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace Task_Merge
 {
     public class Program
@@ -6,18 +8,23 @@ namespace Task_Merge
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddRazorPages();
+            //Добавляем сервис для работы с базой данных.
+            builder.Services.AddTransient<TaskMergeDB>();
+			builder.Services.AddTransient<TaskMergeRole>();
+			//Встроенный сервис для работы с Cookie
+			builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            ////
+            app.Environment.EnvironmentName = "Development";
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            ////
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -25,6 +32,7 @@ namespace Task_Merge
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.MapRazorPages();
 
