@@ -6,7 +6,8 @@ namespace Task_Merge
 {
     public class TaskMergeDB : DbContext
     {
-		public DbSet<customer> users { get; set; } 
+		public DbSet<customer> customer { get; set; } 
+		public DbSet<task> task { get; set; }
 
 		public TaskMergeDB()
 		{
@@ -14,7 +15,7 @@ namespace Task_Merge
 		}
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=my_zone_db;Username=postgres;Password=12345");
+			optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=digital_department_practice;Username=postgres;Password=12345");
 		}
 	}
 }
@@ -22,13 +23,12 @@ namespace Task_Merge
 public class customer
 {
 	[Key]
-	public string id { get; set; }
+	public int id { get; set; }
 	[MaxLength(50)]
 	[NotNull]
 	public string name { get; set; }
-	public string surname { get; set; }
 	[MaxLength(255)]
-	public string phone { get; set; }
+	public string email { get; set; }
 	[NotNull]
 	public string password { get; set; }
 	public string user_type { get; set; }
@@ -37,10 +37,10 @@ public class task
 {
 	[NotNull]
 	public string content { get; set; }
-	public string student_id { get; set; }
-	public string teacher_id { get; set; }
+	public int student_id { get; set; }
+	public int teacher_id { get; set; }
 	public bool status { get; set; }	
-	public string mark { get; set; }
+	public int mark { get; set; }
 }
 
 

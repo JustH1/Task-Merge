@@ -19,37 +19,52 @@ namespace Task_Merge.Pages
             this.role = role;
         } 
         public void OnGet() {}
-        public async Task<IActionResult> OnPost(string username, string email, string password, string repeat_password) 
+        public async Task<IActionResult> OnPost(string username, string email, string password, string repeat_password, string role) 
         {
-            if (db.users.FromSqlInterpolated($"select id from user where email={email};") == null)
+            try
             {
-				if (password == repeat_password)
-				{
-                    var user = new customer()
-                    {
-                        name = username,
-                        phone = email,
-                        password = HashPasswd(password)
-                    };
-					db.users.Add(user);
+				customer[] customer1 = db.customer.FromSqlInterpolated($"select * from customer where email = \'{email}\'").ToArray();
 
-					var claims = new List<Claim>
+				if (!(customer1.Length > 0))
+				{
+
+					if (password == repeat_password)
 					{
-						new Claim(ClaimTypes.Name, user.name),
-                        new Claim(ClaimTypes.Role, role.student.Name)
-					};
-					var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-					await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-					return Redirect("/");
+						var customer = new customer()
+						{
+							name = username,
+							email = email,
+							password = HashPasswd(password),
+							user_type = role.ToLower()
+						};
+
+						db.customer.Add(customer);
+						db.SaveChanges();
+
+						string id = db.customer.FromSqlInterpolated($"select * from customer where email={customer.email}").First().id.ToString();
+						var claims = new List<Claim>
+						{
+						new Claim(ClaimTypes.Name, id),
+						new Claim(ClaimTypes.Role, customer.user_type)
+						};
+						var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+						await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+						return Redirect("/");
+					}
+					else
+					{
+						return Content("Passwords don't match.");
+					}
 				}
-                else
-                {
-                    return Content("Passwords don't match.");
-                }
+				else
+				{
+					return Content("The account already exists.");
+				}
 			}
-            else
+            catch (Exception ex)
             {
-                return Content("The account already exists.");
+				HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+				return Content(ex.Message);
             }
         }
         private string HashPasswd(string passwd)

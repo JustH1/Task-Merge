@@ -1,6 +1,9 @@
 body {
     margin: 0;
     padding: 0;
+    background-image: url('../Images/background-1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 * {
@@ -10,7 +13,7 @@ body {
     font-style: normal;
 }
 
-#authorisation, #registration {
+.authorisation, .registration {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -19,14 +22,21 @@ body {
     justify-content: center;
 }
 
+.white-thin-border {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
 .free_space {
     height: 10px;
+}
+
+.blured-container {
+    backdrop-filter: blur(100px);
 }
 
 form {
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
     padding: 25px;
     padding-bottom: 15px;
     border-radius: 25px;
@@ -36,32 +46,43 @@ form {
 .form-h1 {
     font-weight: 900;
     text-align: center;
+    color: white;
 }
 
-.form-input {
+input {
     padding: 0 10px 0 10px;
     font-size: 18px;
     outline: none;
     border: none;
     margin-bottom: 10px;
-    border-bottom: 1px solid gray;
-    font-weight: 600;
-}
-
-.form-button {
+    border-bottom: 1px solid rgb(255, 255, 255);
+    font-weight: 300;
+    background: none;
     color: white;
-    border: 1px solid black;
-    margin-bottom: 10px;
-    height: 40px;
-    outline: none;
-    border-radius: 100px;
-    background: linear-gradient(90deg, #5493CC, #8FF7D2);
-    transition: 200ms;
+    letter-spacing: 1px;
 }
 
-.form-button:hover {
-    font-weight: 500;
-    letter-spacing: 2px;
+input::-webkit-input-placeholder {
+    color: rgb(201, 201, 201);
+    font-size: 15px;
+}
+
+button {
+    color: rgba(255, 255, 255, 0.5);
+    background: none;
+    border-radius: 1000px;
+    height: 30px;
+    border: none;
+    font-weight: 400;
+    font-size: 18px;
+    padding: 0 30px 0 30px;
+    text-align: center;
+    transition: 100ms;
+}
+
+button:hover {
+    border-color: white;
+    color: white;
 }
 
 .transparent-button {
@@ -69,4 +90,11 @@ form {
     border: none;
     height: 30px;
     background: none;
+}
+
+.interface-button {
+    border: none;
+    padding: 0;
+    justify-self: flex-start;
+    align-self: center;
 }

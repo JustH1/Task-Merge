@@ -19,30 +19,38 @@ namespace Task_Merge.Pages
 			this.role = role;
 		}
 		public void OnGet() {}
-		public async Task<IActionResult> OnPost(string email, string passwd) 
+		public async Task<IActionResult> OnPost(string email, string password) 
 		{
-			customer user = (customer)db.users.FromSqlInterpolated($"select * from user where email{email}");
-			if (user != null)
+			try
 			{
-				if (user.password == HashPasswd(passwd))
+				customer user = db.customer.FromSqlInterpolated($"select * from customer where email={email}").First();
+				if (user != null)
 				{
-					var claims = new List<Claim>
+					if (user.password == HashPasswd(password))
 					{
-						new Claim(ClaimTypes.Name, user.name),
+						var claims = new List<Claim>
+					{
+						new Claim(ClaimTypes.Name, user.id.ToString()),
 						new Claim(ClaimTypes.Role, user.user_type)
 					};
-					var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-					await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-					return Redirect("/");
+						var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+						await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+						return Redirect("/");
+					}
+					else
+					{
+						return Content("Invalid password.");
+					}
 				}
 				else
 				{
-					return Content("Invalid password.");
+					return Content("The user is missing register.");
 				}
 			}
-			else
+			catch (Exception ex)
 			{
-				return Content("The user is missing register.");
+				HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+				return Content(ex.Message);
 			}
 		}
 		private string HashPasswd(string passwd)
