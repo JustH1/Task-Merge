@@ -44,12 +44,20 @@ namespace Task_Merge.Pages
 						string id = db.customer.FromSqlInterpolated($"select * from customer where email={customer.email}").First().id.ToString();
 						var claims = new List<Claim>
 						{
-						new Claim(ClaimTypes.Name, id),
-						new Claim(ClaimTypes.Role, customer.user_type)
+						new Claim(ClaimsIdentity.DefaultNameClaimType, id),
+						new Claim(ClaimsIdentity.DefaultRoleClaimType, customer.user_type)
 						};
 						var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 						await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-						return Redirect("/");
+						
+						if(customer.user_type == "student")
+						{
+							return Redirect("StudentPage");
+						}
+						else
+						{
+							return Redirect("TeacherPage");
+						}
 					}
 					else
 					{

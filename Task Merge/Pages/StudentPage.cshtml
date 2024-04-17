@@ -1,0 +1,28 @@
+﻿@page
+@model StudentPage
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<body id="main-page">
+	<header class="blured-container">
+		<h1>My tasks</h1>
+		<button class="transparent-button" id="aboutme-link">@Model.userName</button>
+	</header>
+
+	<div class="content">
+		<!-- Dynamic loading content -->
+		@foreach (var item in Model.tasks)
+		{
+			<a class="task" href="AboutTaskPage?id=@item.id">
+				<div class="loaded-task student-side blured-container white-border">
+					<!-- same dynamic loaded content -->
+					<p class="task-text">@item.content</p>
+					<p class="left-time-text">Оставшееся время:</p>
+					<p class="left-time-value">@(DateTime.Parse(item.time_end) - DateTime.Parse(item.time_start))</p>
+					<i class='bx bx-smile'></i>
+				</div>
+			</a>
+		}		
+	</div>
+</body>

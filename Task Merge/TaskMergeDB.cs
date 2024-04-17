@@ -8,6 +8,7 @@ namespace Task_Merge
     {
 		public DbSet<customer> customer { get; set; } 
 		public DbSet<task> task { get; set; }
+		public DbSet<task_files> task_files { get; set; }
 
 		public TaskMergeDB()
 		{
@@ -35,13 +36,21 @@ public class customer
 }
 public class task
 {
+	[Key]
 	[NotNull]
+	public string id { get; set; }
 	public string content { get; set; }
 	public int student_id { get; set; }
 	public int teacher_id { get; set; }
 	public bool status { get; set; }	
-	public int mark { get; set; }
+	public string time_start { get; set; }
+	public string time_end { get; set; }
 }
-
+public class task_files
+{
+	[Key]
+	public string task_id { get; set; }
+	public string file_path { get ; set; }
+}
 
 

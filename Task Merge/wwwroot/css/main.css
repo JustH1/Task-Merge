@@ -1,3 +1,4 @@
+
 body {
     margin: 0;
     padding: 0;
@@ -13,6 +14,10 @@ body {
     font-style: normal;
 }
 
+    *::selection {
+        background-color: rgba(0, 0, 0, 0.287)
+    }
+
 .authorisation, .registration {
     position: absolute;
     left: 50%;
@@ -22,8 +27,10 @@ body {
     justify-content: center;
 }
 
-.white-thin-border {
-    border: 1px solid rgba(255, 255, 255, 0.25);
+.white-border {
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    transition: 200ms;
 }
 
 .free_space {
@@ -62,10 +69,10 @@ input {
     letter-spacing: 1px;
 }
 
-input::-webkit-input-placeholder {
-    color: rgb(201, 201, 201);
-    font-size: 15px;
-}
+    input::-webkit-input-placeholder {
+        color: rgb(201, 201, 201);
+        font-size: 15px;
+    }
 
 button {
     color: rgba(255, 255, 255, 0.5);
@@ -80,10 +87,10 @@ button {
     transition: 100ms;
 }
 
-button:hover {
-    border-color: white;
-    color: white;
-}
+    button:hover {
+        border-color: white;
+        color: white;
+    }
 
 .transparent-button {
     outline: none;
@@ -97,4 +104,13 @@ button:hover {
     padding: 0;
     justify-self: flex-start;
     align-self: center;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
 }

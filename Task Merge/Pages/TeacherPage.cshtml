@@ -1,0 +1,47 @@
+﻿@page
+@model Task_Merge.Pages.TeacherPage
+@{
+}
+<body id="main-page">
+		<header class="blured-container">
+			<h1>My tasks</h1>
+			<button class="transparent-button" id="aboutme-link">@Model.userName</button>
+		</header>
+		<div class="content">
+			<form class="task" method="post" enctype="multipart/form-data">
+				<div class="task-creator blured-container white-border">
+					<div  method="post" class="upper-panel">
+						<input  class="left-content" name="task_content" id="task-content-input" placeholder="Short description... (default: Task)">
+						<input class="id-input" name="student_id" placeholder="Student id..." type="text">
+						<input class="first-middle-content" name="task_time" id="task-time-input" type="time">
+						<input class="second-middle-content" name="task_date" id="date" type="date">
+						<button type="submit" class="right-content white-border">Create</button>
+					</div>
+					
+					<div id="drop-zone" class="white-border">
+						<input type="file" name="files" id="file-receiver" multiple style="display: none;">						
+						<div id="choose-file-button" type="submit">Click to choose file or drop into this area</div>
+					</div>
+					
+					<div id="info">
+						
+					</div>
+				</div>
+			</form>
+
+			<div class="separator margin-bottom-60px"></div>
+			
+            <!-- Dynamic loading content -->
+			
+		@foreach (var item in Model.tasks)
+		{
+			<a class="task" href="AboutTaskPage?id=@item.id">
+				<div class="loaded-task teacher-side blured-container white-border">
+					<p class="task-text">@item.content</p>
+					<p class="left-time-text">Send time:</p>
+					<p class="left-time-value">@item.time_end</p>
+				</div>
+			</a>
+		}
+		</div>
+</body>
