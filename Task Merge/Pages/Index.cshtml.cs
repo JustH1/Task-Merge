@@ -43,36 +43,43 @@ namespace Task_Merge.Pages
 		{
 			try
 			{
-				customer user = db.customer.FromSqlInterpolated($"select * from customer where email={email}").First();
-				if (user != null)
+				if (email != null && password != null)
 				{
-					if (user.password == HashPasswd(password))
-					{
-						var claims = new List<Claim>
-						{
-						new Claim(ClaimsIdentity.DefaultNameClaimType, user.id.ToString()),
-						new Claim(ClaimsIdentity.DefaultRoleClaimType, user.user_type)
-						};
-						var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-						await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-						
-						if (user.user_type == "student")
-						{
-							return Redirect("StudentPage");
-						}
-						else
-						{
-							return Redirect("TeacherPage");
-						}
-					}
-					else
-					{
-						return Content("Invalid password.");
-					}
-				}
+                    customer user = db.customer.FromSqlInterpolated($"select * from customer where email={email}").First();
+                    if (user != null)
+                    {
+                        if (user.password == HashPasswd(password))
+                        {
+                            var claims = new List<Claim>
+                        {
+                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.id.ToString()),
+                        new Claim(ClaimsIdentity.DefaultRoleClaimType, user.user_type)
+                        };
+                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+                            if (user.user_type == "student")
+                            {
+                                return Redirect("StudentPage");
+                            }
+                            else
+                            {
+                                return Redirect("TeacherPage");
+                            }
+                        }
+                        else
+                        {
+                            return Content("Invalid password.");
+                        }
+                    }
+                    else
+                    {
+                        return Content("The user is missing register.");
+                    }
+                }
 				else
 				{
-					return Content("The user is missing register.");
+					return StatusCode(400);
 				}
 			}
 			catch (Exception ex)

@@ -1,0 +1,50 @@
+﻿@page
+@model Task_Merge.Pages.MyAccountPageModel
+@{
+}
+<link rel="stylesheet" href="~/css/my_account.css" asp-append-version="true" />
+
+<body>
+    <div class="go_back_link">
+        @if (Model.customer_view.user_type == "teacher")
+        {
+            <a id="go_back" href="TeacherPage">
+                <i class='bx bx-chevron-left'></i>
+            </a>
+        }
+        else
+        {
+            <a id="go_back" href="StudentPage">
+                <i class='bx bx-chevron-left'></i>
+            </a>
+        }
+    </div>
+
+    <div class="content">
+        <div class="card white-border blured-container">
+            <div class="left">
+                <div class="top">
+                    <h3>About me</h3>
+                    <p class="name">@Model.customer_view.name</p>
+                    <p class="email">@Model.customer_view.email</p>
+                    <p class="role">@Model.customer_view.user_type</p>
+                    <p class="id">ID:@Model.customer_view.id</p>
+                </div>
+                <a href="LogOut">Log out</a>
+            </div>
+
+            <div class="vertical-separator"></div>
+
+            <form class="right" method="post">
+                <div class="top">
+                    <h3>Edit account data</h3>
+                    <input type="text" name="username" id="username-input" placeholder="Username">
+                    <input type="email" name="email" id="email-input" placeholder="Email">
+                    <input type="password" name="password" id="password-input" placeholder="Password">
+                    <input type="password" name="repeat_password" id="repeat-password-input" placeholder="Repeat password">
+                </div>
+                <button type="submit">Apply</button>
+            </form>
+        </div>
+    </div>
+</body>

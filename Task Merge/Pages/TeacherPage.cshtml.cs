@@ -46,6 +46,7 @@ namespace Task_Merge.Pages
         {
             try
             {
+                Console.WriteLine(files.Count);
                 IIdentity? userIdentity = HttpContext.User.Identity;
                 if (userIdentity != null && userIdentity.IsAuthenticated)
                 {
@@ -77,11 +78,11 @@ namespace Task_Merge.Pages
                                 task_id = currentTask.id,
                                 file_path = path
                             };
+
                             db.task_files.Add(task_Files); 
                         }
                         db.SaveChanges();
                     }
-                    
                     return Page();
                 }
                 else
@@ -89,15 +90,15 @@ namespace Task_Merge.Pages
                     return Redirect("Index");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                await Console.Out.WriteLineAsync(ex.Message);
                 return StatusCode(400);
             }
         }
         private async Task<List<string>> DownloadFile(IFormFileCollection files, string uniqueId)
         {
             List<string> path = new List<string>();
-
             for (int i = 0; i < files.Count; i++)
             {
 				string currentFilePath = GetFilesPaths(files[i], uniqueId, i);
@@ -107,6 +108,7 @@ namespace Task_Merge.Pages
 				}
 				path.Add(currentFilePath);
 			}
+            Console.WriteLine(path.Count);
             return path;
         }
         private string GetFilesPaths(IFormFile file, string taskID,int count)
