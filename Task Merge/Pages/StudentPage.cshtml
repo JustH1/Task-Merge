@@ -14,7 +14,7 @@
 		<!-- Dynamic loading content -->
 		@foreach (var item in Model.tasks)
 		{
-			<a class="task" href="AboutTaskPage?id=@item.id">
+			<a class="task" href="TaskInfoPage?taskId=@item.id">
 				<div class="loaded-task student-side blured-container white-border">
 					<!-- same dynamic loaded content -->
 					<p class="task-text">@item.content</p>

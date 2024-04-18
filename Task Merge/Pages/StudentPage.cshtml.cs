@@ -7,10 +7,7 @@ using System.Security.Principal;
 
 namespace Task_Merge.Pages
 {
-    /// <summary>
-    /// Task for students
-    /// </summary>
-    public class StudentPage : PageModel
+	public class StudentPage : PageModel
     {
         private TaskMergeDB db;
         private TaskMergeRole role;

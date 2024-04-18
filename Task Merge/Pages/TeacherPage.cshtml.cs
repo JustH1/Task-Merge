@@ -6,20 +6,16 @@ using System.Security.Principal;
 
 namespace Task_Merge.Pages
 {
-    public class TeacherPage : PageModel
+	public class TeacherPage : PageModel
     {
         private TaskMergeDB db;
-        private TaskMergeRole role;
-        private readonly IWebHostEnvironment hostingEnvironment;
 
         public string userName { get; set; }
         public List<task> tasks { get; set; }
 
-        public TeacherPage(TaskMergeDB db, TaskMergeRole role, IWebHostEnvironment hostingEnvironment)
+        public TeacherPage(TaskMergeDB db, TaskMergeRole role)
         {
             this.db = db;
-            this.role = role;
-            this.hostingEnvironment = hostingEnvironment;
         }
         public async Task<IActionResult> OnGet()
         {
@@ -116,7 +112,7 @@ namespace Task_Merge.Pages
         private string GetFilesPaths(IFormFile file, string taskID,int count)
         {
             string fileName = file.FileName;
-            string filePath = Path.Combine(hostingEnvironment.ContentRootPath, "Downloaded_Files",$"{taskID}({count})." + fileName.Split('.')[1]);
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Downloaded_Files",$"{taskID}({count})." + fileName.Split('.')[1]);
             return filePath;
         }
     }

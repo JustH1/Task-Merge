@@ -35,7 +35,7 @@
 			
 		@foreach (var item in Model.tasks)
 		{
-			<a class="task" href="AboutTaskPage?id=@item.id">
+			<a class="task" href="TaskInfoPage?taskId=@item.id">
 				<div class="loaded-task teacher-side blured-container white-border">
 					<p class="task-text">@item.content</p>
 					<p class="left-time-text">Send time:</p>

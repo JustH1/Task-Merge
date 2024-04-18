@@ -1,0 +1,57 @@
+﻿@page
+@model Task_Merge.Pages.TaskInfoPageModel
+@{
+}
+<link rel="stylesheet" href="~/css/about_task.css" asp-append-version="true" />
+
+<body>
+	<div class="go_back_link">
+		@if (Model.checkRole == true)
+		{
+			<a id="go_back" href="TeacherPage">
+				<i class='bx bx-chevron-left'></i>
+			</a>
+		}
+		else
+		{
+			<a id="go_back" href="StudentPage">
+				<i class='bx bx-chevron-left'></i>
+			</a>
+		}
+	</div>
+
+	<div class="content">
+		<div class="card white-border blured-container">
+			<div class="first_row">
+				<h3>@Model.currentTask.content</h3>
+				<p class="destination_id">Teacher: @(Model.teacher.name)(@Model.teacher.id) Student: @(Model.student.name)(@Model.student.id)</p>
+			</div>
+			<div class="middle_row">
+				<!-- style="display: none" if no files else style="display: block" -->
+				<p>Pinned files</p>
+
+				<!-- Dynamic loading content -->
+				
+				@foreach (var item in Model.taskFileNames)
+				{
+					<a href="DownloadFilePage?fileName=@item&taskId=@Model.currentTask.id">@item</a>
+				}
+
+				<!-- Dynamic loading content -->
+
+			</div>
+			<div class="last_row">
+				<p>Task start date: @Model.currentTask.time_start</p>
+				<p>The end date of the task: @Model.currentTask.time_end</p>
+				@if (!Model.currentTask.status)
+				{
+					<p>There is no time left: @(DateTime.Parse(Model.currentTask.time_end) - DateTime.Parse(Model.currentTask.time_start))</p>
+				}
+				else
+				{
+					<p>The task is completed.</p>
+				}
+			</div>
+		</div>
+	</div>
+</body>
