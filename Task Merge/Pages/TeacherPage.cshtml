@@ -1,51 +1,84 @@
 ﻿@page
 @model Task_Merge.Pages.TeacherPage
 @{
+    ViewData["Title"] = "TeacherPage";
 }
+<link rel="stylesheet" href="~/css/file_receiver.css" asp-append-version="true" />
+
 <body id="main-page">
-    <header class="blured-container">
-        <h1>My tasks</h1>
-        <a href="MyAccountPage" class="transparent-button" id="aboutme-link">@Model.userName</a>
-    </header>
-    <div class="content">
-        <form class="task" method="post" enctype="multipart/form-data">
-            <div class="task-creator blured-container white-border">
-                <div method="post" class="upper-panel">
-                    <input class="left-content" name="task_content" id="task-content-input" placeholder="Short description... (default: Task)">
-                    <input class="id-input" name="student_id" placeholder="Student id..." type="text">
-                    <input class="first-middle-content" name="task_time" id="task-time-input" type="time">
-                    <input class="second-middle-content" name="task_date" id="date" type="date">
-                    <button type="submit" class="right-content white-border">Create</button>
-                </div>
+	<header class="blured-container">
+		<h1>My tasks</h1>
+		<a class="transparent-link" id="aboutme-link" href="MyAccountPage">@Model.userName</a>
+	</header>
+	<div class="content">
+		<form method="post" class="task" enctype="multipart/form-data">
+			<div class="task-creator blured-container white-border">
+				<div class="upper-panel">
+					<input class="left-content" name="task_content" placeholder="Short description... (default: Task)">
+					<input class="id-input" name="student_id" placeholder="Receiver id..." type="text">
+					<input class="first-middle-content" name="task_time" type="time">
+					<input class="second-middle-content" name="task_date" type="date">
+					<button class="right-content white-border">Create</button>
+				</div>
 
-                <div id="drop-zone" class="white-border">
-                    <input type="file" name="files" id="file-receiver" multiple style="display: none;">
-                    <div id="choose-file-or-clean-input">
-                        <button id="choose-file-button" type="button"><i id="button" class='bx bx-folder-open'></i></button>
+				<div id="drop-zone" class="white-border">
+					<input type="file" name="files" id="file-receiver" multiple style="display: none;">
 
-                        <div id="separator" class="vertical-separator"></div>
+					<div id="choose-file-or-clean-input">
+						<button id="choose-file-button" type="button"><i id="button" class='bx bx-folder-open'></i></button>
 
-                        <button id="clear-button" type="button"><i id="button" class='bx bx-trash'></i></button>
-                    </div>
-                </div>
+						<div id="separator" class="vertical-separator"></div>
 
-                <div id="info">
-                </div>
-            </div>
-        </form>
+						<button id="clear-button" type="button"><i id="button" class='bx bx-trash'></i></button>
+					</div>
+				</div>
 
-        <div class="separator margin-bottom-60px"></div>
+				<div id="info">
+					<p id="info-header">Pinned files:</p>
 
-        <!-- Dynamic loading content -->
-        @foreach (var item in Model.tasks)
-        {
-            <a class="task" href="TaskInfoPage?taskId=@item.id">
-                <div class="loaded-task teacher-side blured-container white-border">
-                    <p class="task-text">@item.content</p>
-                    <p class="left-time-text">Send time:</p>
-                    <p class="left-time-value">@item.time_end</p>
-                </div>
-            </a>
-        }
-    </div>
+				</div>
+			</div>
+		</form>
+
+		<div class="separator margin-bottom-60px"></div>
+
+		<div class="tasks-container">
+			<h3 id="got-from-students-header">Got from students</h3>
+
+			<div class="got-to-mark">
+
+				<!-- Dynamic loading content -->
+				@foreach (var item in Model.completedTasks)
+				{
+					<a class="task" href="RatingTaskPage/@item.id">
+						<div class="loaded-task teacher-side blured-container white-border">
+							<p class="task-text">@item.content</p>
+							<p class="left-time-text">Send time:</p>
+							<p class="left-time-value">@item.time_end</p>
+						</div>
+					</a>
+				}
+			</div>
+
+			<div id="tasks-container-separator" class="vertical-separator"></div>
+
+			<h3 id="my-tasks-header">My tasks</h3>
+
+			<div class="created-with-me">
+
+				<!-- Dynamic loading content -->
+				
+				@foreach (var item in Model.tasks)
+				{
+					<a class="task" href="EditTaskPage/@item.id">
+						<div class="loaded-task teacher-side blured-container white-border">
+							<p class="task-text">@item.content</p>
+							<p class="left-time-text">Send time:</p>
+							<p class="left-time-value">@item.time_end</p>
+						</div>
+					</a>
+				}
+			</div>
+		</div>
+	</div>
 </body>

@@ -17,17 +17,18 @@ var drop_zone_buttons_container_hover = false
 clear_log_div = () => log_div.innerHTML = '<p>Pinned files:</p>'
 
 draw_files = () => {
+	clear_log_div()
 	console.log('draw_files')
 
 	log_div.appendChild(document.createElement('br'))
-
+	
 	for (let i = 0; i < file_receiver.files.length; i++) {
 		let file = file_receiver.files[i]
-
+		
 		let p = document.createElement('p')
 		p.textContent = file.name
 		p.className = 'log-paragraph'
-
+	
 		log_div.appendChild(p)
 	}
 
@@ -41,7 +42,7 @@ set_files_to_input = (custom_files) => {
 
 	for (let i = 0; i < custom_files.length; i++) {
 		new_file_list[i] = custom_files[i]
-		console.log('\t' + new_file_list[i].toString() + ': ' + typeof (custom_files[i]))
+		console.log('\t' + new_file_list[i].toString() + ': ' + typeof(custom_files[i]))
 	}
 
 	console.log(new_file_list)
@@ -68,17 +69,17 @@ update_file_receiver = () => {
 }
 
 drop_realisation = (e) => {
-	choose_file_button.style.display = "block"
-
+	drop_zone_buttons_container.style.display = "grid"
+	
 	update_file_receiver()
 	e.preventDefault()
-
+	
 	let files = e.dataTransfer.files
 	let custom_files = Array.from(files)
 
 	let custom_file_list = Object.create(FileList.prototype)
 
-	custom_files.forEach(function (file, index) {
+	custom_files.forEach(function(file, index) {
 		Object.defineProperty(custom_file_list, index, {
 			value: file,
 			writable: false
@@ -119,7 +120,7 @@ drop_zone_mouseleave = () => {
 	clear_files.style.color = "rgba(255, 255, 255, 0.6)"
 }
 
-drop_zone_buttons_container_mouseover = () => {
+drop_zone_buttons_container_mouseover = () =>  {
 	drop_zone.style.borderColor = "rgba(255, 255, 255, 0.25)"
 	drop_zone_buttons_container.style.borderColor = "rgba(255, 255, 255, 0.25)"
 	drop_zone_buttons_container_hover = true
@@ -145,7 +146,7 @@ choose_file_button.addEventListener(
 drop_zone.addEventListener(
 	'dragover',
 	(e) => {
-		choose_file_button.style.display = "none"
+		drop_zone_buttons_container.style.display = "none"
 		drop_zone_mouseover()
 
 		if (e.target === drop_zone)
@@ -156,7 +157,7 @@ drop_zone.addEventListener(
 drop_zone.addEventListener(
 	'dragleave',
 	(e) => {
-		choose_file_button.style.display = "block"
+		drop_zone_buttons_container.style.display = "grid"
 		drop_zone_mouseleave()
 	}
 )

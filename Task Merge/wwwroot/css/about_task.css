@@ -1,53 +1,56 @@
-﻿
 .go_back_link {
-    padding: 15px;
+	padding: 15px;
 }
 
 #go_back {
-    text-decoration: none;
-    outline: none;
-    align-self: center;
-    font-size: 40px;
-    transition: 150ms;
+	text-decoration: none;
+	outline: none;
+	align-self: center;
+	font-size: 40px;
+	transition: 150ms;
 }
 
-    #go_back:hover {
-        color: white;
-    }
-
+#go_back:hover {
+	color: white;
+}
 .card {
-    padding: 15px;
-    grid-column: 2;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    row-gap: 15px;
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 60%;
+	padding: 15px;
+	grid-column: 2;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	row-gap: 15px;
 }
 
 .first_row {
-    grid-row: 1;
-    display: grid;
-    grid-template-columns: 1fr auto;
+	grid-row: 1;
+	display: grid;
+	grid-template-columns: 1fr auto;
 }
 
 .middle_row {
-    grid-row: 2;
-    display: grid;
+	grid-row: 2;
+	display: grid;
 }
 
 .last_row {
-    grid-row: 3;
-    display: grid;
+	grid-row: 3;
+	display: grid;
 }
 
 .first_row h3 {
-    grid-column: 1;
+	grid-column: 1;
 }
 
 .first_row p {
-    grid-column: 2;
+	grid-column: 2;
 }
 
 .middle_row a {
-    padding-left: 15px;
-    color: rgba(255, 255, 255, 0.8);
+	padding-left: 15px;
+	color: rgba(255, 255, 255, 0.8);
 }

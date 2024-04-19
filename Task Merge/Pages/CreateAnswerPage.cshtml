@@ -1,0 +1,65 @@
+﻿@page "{id}"
+@model Task_Merge.Pages.CreateAnswerPage
+@{
+	ViewData["Title"] = "TaskInfoPage";
+}
+<link rel="stylesheet" href="~/css/create_answer.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/file_receiver.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/about_task.css" asp-append-version="true" />
+
+
+<body>
+	<div class="go_back_link">
+		<a id="go_back" asp-page="StudentPage">
+			<i class='bx bx-chevron-left'></i>
+		</a>
+	</div>
+
+	<div class="content">
+		<div class="card white-border blured-container">
+			<div class="first_row">
+				<h3>Task label</h3>
+				<p class="sender_id">Teacher: @(Model.teacher.name)(@Model.teacher.id) Student: @(Model.student.name)(@Model.student.id)</p>
+			</div>
+			<div class="middle_row">
+				<!-- style="display: none" if no files else style="display: block" -->
+				<p>Pinned files:</p>
+
+				<!-- Dynamic loading content -->
+				@foreach (var item in Model.taskFileNames)
+				{
+					<a href="DownloadFilePage?fileName=@item&taskId=@Model.currentTask.id">@item</a>
+				}
+				<!-- Dynamic loading content -->
+
+			</div>
+
+			<div class="horizontal-separator"></div>
+
+			<form class="pin-files" method="post" enctype="multipart/form-data">
+				<h3>Pin your files as answer:</h3>
+
+				<div id="drop-zone" class="white-border">
+					<input  type="file" name="files" id="file-receiver" multiple style="display: none;">
+
+					<div id="choose-file-or-clean-input">
+						<button id="choose-file-button" type="button"><i id="button" class='bx bx-folder-open'></i></button>
+
+						<div id="separator" class="vertical-separator"></div>
+
+						<button id="clear-button" type="button"><i id="button" class='bx bx-trash'></i></button>
+					</div>
+				</div>
+
+				<div id="info">
+					<p id="info-header">Pinned files:</p>
+				</div>
+
+				<button id="create-answer">Send</button>
+			</form>
+
+		</div>
+	</div>
+
+	<script src="../Scripts/file_receiver.js"></script>
+</body>

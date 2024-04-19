@@ -1,7 +1,7 @@
 ﻿@page
 @model StudentPage
 @{
-    ViewData["Title"] = "Home page";
+	ViewData["Title"] = "StudentPage";
 }
 
 <body id="main-page">
@@ -14,13 +14,34 @@
 		<!-- Dynamic loading content -->
 		@foreach (var item in Model.tasks)
 		{
-			<a class="task" href="TaskInfoPage?taskId=@item.id">
+			<a class="task" href="CreateAnswerPage/@item.id">
 				<div class="loaded-task student-side blured-container white-border">
 					<!-- same dynamic loaded content -->
 					<p class="task-text">@item.content</p>
-					<p class="left-time-text">Оставшееся время:</p>
-					<p class="left-time-value">@(DateTime.Parse(item.time_end) - DateTime.Parse(item.time_start))</p>
-					<i class='bx bx-smile'></i>
+					<p class="left-time-text">Remaining time:</p>
+
+					@{
+						TimeSpan remained = DateTime.Parse(item.time_end) - DateTime.Now;
+						TimeSpan difference = DateTime.Parse(item.time_end) - DateTime.Parse(item.time_start);
+						TimeSpan first = difference * 0.33;
+						TimeSpan second = difference * 0.66;
+					}
+
+					<p class="left-time-value">@remained.Days Days @remained.Hours Hours @remained.Minutes Minutes</p>
+
+					@if (remained < first)
+					{
+						<i class='bx bx-shocked'></i>
+					}
+					else if (first < remained && remained < second)
+					{
+						<i class='bx bx-confused'></i>
+					}
+					else
+					{
+						<i class='bx bx-smile'></i>
+					}
+					
 				</div>
 			</a>
 		}		

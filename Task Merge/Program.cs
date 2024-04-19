@@ -12,6 +12,8 @@ namespace Task_Merge
             //Добавляем сервис для работы с базой данных.
             builder.Services.AddTransient<TaskMergeDB>();
 			builder.Services.AddTransient<TaskMergeRole>();
+            builder.Services.AddLogging();
+
 			//Встроенный сервис для работы с Cookie
 			builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 

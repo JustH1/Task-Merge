@@ -10,15 +10,15 @@ namespace Task_Merge.Pages
 	public class StudentPage : PageModel
     {
         private TaskMergeDB db;
-        private TaskMergeRole role;
+        private ILogger<StudentPage> logger;
 
         public string userName { get; set; }
         public List<task> tasks { get; set; }
 
-		public StudentPage(TaskMergeDB db, TaskMergeRole role)
+		public StudentPage(TaskMergeDB db, ILogger<StudentPage> logger)
         {
             this.db = db;
-            this.role = role;
+            this.logger = logger;
         }
         public async Task<IActionResult> OnGet()
         {
@@ -30,7 +30,7 @@ namespace Task_Merge.Pages
                     if (HttpContext.User.IsInRole("student"))
                     {
 						userName = db.customer.Where(p => p.id.ToString() == userIdentity.Name).First().name;
-						tasks = db.task.Where(p => p.student_id == Convert.ToInt32(userIdentity.Name)).ToList();
+						tasks = db.task.Where(p => p.student_id == Convert.ToInt32(userIdentity.Name) && p.status == false).ToList();
 						return Page();
 					}
                     else { return StatusCode(404); }
@@ -40,8 +40,9 @@ namespace Task_Merge.Pages
                     return Redirect("Index");
                 }
 			}
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogCritical(ex.Message);
                 return StatusCode(500);
             }  
 		}

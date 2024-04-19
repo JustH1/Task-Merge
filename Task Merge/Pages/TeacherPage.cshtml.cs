@@ -9,13 +9,16 @@ namespace Task_Merge.Pages
 	public class TeacherPage : PageModel
     {
         private TaskMergeDB db;
+        private ILogger<TeacherPage> logger;
 
         public string userName { get; set; }
         public List<task> tasks { get; set; }
+        public List<task> completedTasks { get; set; }
 
-        public TeacherPage(TaskMergeDB db, TaskMergeRole role)
+		public TeacherPage(TaskMergeDB db, ILogger<TeacherPage> logger)
         {
             this.db = db;
+            this.logger = logger;
         }
         public async Task<IActionResult> OnGet()
         {
@@ -28,6 +31,8 @@ namespace Task_Merge.Pages
 					{
                         userName = db.customer.Where(p => p.id.ToString() == userIdentity.Name).First().name;
 						tasks = db.task.Where(p => p.teacher_id == Convert.ToInt32(userIdentity.Name)).ToList();
+                        completedTasks = tasks.Where(p => p.status == true && p.mark == null).ToList();
+
 						return Page();
 					}
 					else { return StatusCode(404); }	
@@ -37,8 +42,9 @@ namespace Task_Merge.Pages
                     return Redirect("Index");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogCritical(ex.Message);
                 return StatusCode(500);
             }
         }
@@ -46,7 +52,6 @@ namespace Task_Merge.Pages
         {
             try
             {
-                Console.WriteLine(files.Count);
                 IIdentity? userIdentity = HttpContext.User.Identity;
                 if (userIdentity != null && userIdentity.IsAuthenticated)
                 {
@@ -68,8 +73,9 @@ namespace Task_Merge.Pages
 					db.SaveChanges();
 
 					tasks = db.task.Where(p => p.teacher_id == Convert.ToInt32(userIdentity.Name)).ToList();
+					completedTasks = tasks.Where(p => p.status == true).ToList();
 
-                    if (files != null)
+					if (files != null)
                     {
                         foreach (var path in await DownloadFile(files, uniqueId))
                         {
@@ -92,7 +98,7 @@ namespace Task_Merge.Pages
             }
             catch (Exception ex)
             {
-                await Console.Out.WriteLineAsync(ex.Message);
+                logger.LogCritical(ex.Message);
                 return StatusCode(400);
             }
         }

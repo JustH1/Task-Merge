@@ -9,9 +9,11 @@ namespace Task_Merge.Pages
     public class DownloadFilePageModel : PageModel
     {
 		private TaskMergeDB db;
-		public DownloadFilePageModel(TaskMergeDB db)
+		private ILogger<DownloadFilePageModel> logger;
+		public DownloadFilePageModel(TaskMergeDB db, ILogger<DownloadFilePageModel> logger)
 		{
 			this.db = db;
+			this.logger = logger;
 		}
 		public async Task<IActionResult> OnGet(string fileName, string taskId)
         {
@@ -38,8 +40,9 @@ namespace Task_Merge.Pages
 					return StatusCode(404);
 				}
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+				logger.LogCritical(ex.Message);
 				return StatusCode(500);
 			}
 		}
